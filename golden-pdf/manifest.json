@@ -1,0 +1,42 @@
+{
+  "ecom": {
+    "Basic": "golden-pdf/ecom_Basic.pdf",
+    "Pro": "golden-pdf/ecom_Pro.pdf",
+    "Deep": "golden-pdf/ecom_Deep.pdf"
+  },
+  "fashion": {
+    "Basic": "golden-pdf/fashion_Basic.pdf",
+    "Pro": "golden-pdf/fashion_Pro.pdf",
+    "Deep": "golden-pdf/fashion_Deep.pdf"
+  },
+  "edu": {
+    "Basic": "golden-pdf/edu_Basic.pdf",
+    "Pro": "golden-pdf/edu_Pro.pdf",
+    "Deep": "golden-pdf/edu_Deep.pdf"
+  },
+  "clinic": {
+    "Basic": "golden-pdf/clinic_Basic.pdf",
+    "Pro": "golden-pdf/clinic_Pro.pdf",
+    "Deep": "golden-pdf/clinic_Deep.pdf"
+  },
+  "services": {
+    "Basic": "golden-pdf/services_Basic.pdf",
+    "Pro": "golden-pdf/services_Pro.pdf",
+    "Deep": "golden-pdf/services_Deep.pdf"
+  },
+  "manuf": {
+    "Basic": "golden-pdf/manuf_Basic.pdf",
+    "Pro": "golden-pdf/manuf_Pro.pdf",
+    "Deep": "golden-pdf/manuf_Deep.pdf"
+  },
+  "horeca": {
+    "Basic": "golden-pdf/horeca_Basic.pdf",
+    "Pro": "golden-pdf/horeca_Pro.pdf",
+    "Deep": "golden-pdf/horeca_Deep.pdf"
+  },
+  "other": {
+    "Basic": "golden-pdf/other_Basic.pdf",
+    "Pro": "golden-pdf/other_Pro.pdf",
+    "Deep": "golden-pdf/other_Deep.pdf"
+  }
+}

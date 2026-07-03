@@ -1,0 +1,187 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Пример аудит-отчёта CRM · методология Zelta · Open Group</title>
+<style>
+  :root { --ink:#14181f; --muted:#5b6675; --line:#e3e7ee; --blue:#3b6fd4; --red:#b3402f; --green:#1d7a45; --amber:#9a6a14; --bg:#f6f8fc; }
+  * { box-sizing:border-box; }
+  body { margin:0; background:var(--bg); color:var(--ink); font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif; line-height:1.55; }
+  .page { max-width:860px; margin:0 auto; background:#fff; padding:48px 56px; }
+  .eyebrow { font-size:12px; font-weight:700; letter-spacing:1px; color:var(--blue); text-transform:uppercase; }
+  h1 { font-size:28px; margin:8px 0 4px; }
+  h2 { font-size:19px; margin:32px 0 8px; padding-bottom:6px; border-bottom:2px solid var(--line); }
+  h3 { font-size:15px; margin:18px 0 4px; }
+  .meta { color:var(--muted); font-size:13px; }
+  .lead { font-size:15px; color:#36404e; }
+  hr { border:none; border-top:1px solid var(--line); margin:18px 0; }
+  table { width:100%; border-collapse:collapse; font-size:13px; margin:8px 0; }
+  th,td { text-align:left; padding:8px 10px; border-bottom:1px solid var(--line); vertical-align:top; }
+  th { color:var(--muted); font-weight:600; background:#fafbfe; }
+  .chain { display:flex; flex-wrap:wrap; gap:6px; align-items:center; margin:10px 0; }
+  .chip { font-size:12px; font-weight:700; color:var(--blue); background:#eef3fe; border:1px solid #c9d8f7; border-radius:6px; padding:4px 9px; }
+  .conf { font-size:11px; font-weight:700; border-radius:5px; padding:2px 7px; }
+  .conf.high { background:#e4f5ea; color:var(--green); }
+  .conf.med { background:#fdf2e1; color:var(--amber); }
+  .conf.hyp { background:#eef0f4; color:var(--muted); }
+  .finding { border:1px solid var(--line); border-radius:10px; padding:14px 16px; margin:12px 0; background:#fff; }
+  .kpi { display:grid; grid-template-columns:repeat(4,1fr); gap:12px; margin:12px 0; }
+  .kpi > div { background:#fafbfe; border:1px solid var(--line); border-radius:10px; padding:14px 16px; display:flex; flex-direction:column; gap:4px; }
+  .kpi .kpi-label { font-size:12px; color:var(--muted); }
+  .kpi .kpi-val { font-size:26px; font-weight:800; line-height:1; }
+  .kpi .kpi-sub { font-size:11px; color:var(--muted); }
+  @media (max-width:640px){ .kpi { grid-template-columns:repeat(2,1fr); } }
+  /* score + modules */
+  .scorebar { display:flex; gap:18px; align-items:center; flex-wrap:wrap; background:#fafbfe; border:1px solid var(--line); border-radius:12px; padding:16px 18px; margin:14px 0; }
+  .scorebox { text-align:center; padding-right:18px; border-right:1px solid var(--line); }
+  .scoreval { font-size:40px; font-weight:800; color:var(--green); line-height:1; }
+  .scoreval span { font-size:18px; color:var(--muted); font-weight:600; }
+  .modules { display:grid; grid-template-columns:repeat(3,1fr); gap:8px; flex:1; min-width:280px; }
+  .mod { font-size:12px; font-weight:600; color:#2c3a4d; background:#fff; border:1px solid var(--line); border-left:3px solid var(--green); border-radius:6px; padding:7px 10px; }
+  .mod-low { border-left-color:var(--red); }
+  @media (max-width:640px){ .modules { grid-template-columns:1fr 1fr; } .scorebox { border-right:none; } }
+  .red { color:var(--red); } .green { color:var(--green); }
+  .note { font-size:12px; color:var(--muted); }
+  .foot { margin-top:36px; padding-top:16px; border-top:1px solid var(--line); font-size:12px; color:var(--muted); }
+  .badge { display:inline-block; background:#fff3cd; color:#7a5a00; border:1px solid #f0d98a; border-radius:6px; padding:3px 8px; font-size:11px; font-weight:700; }
+  @media print { body { background:#fff; } .page { padding:24px 0; max-width:none; } .noprint { display:none; } }
+  .btnbar { text-align:center; margin:24px 0; }
+  .btn { display:inline-block; background:var(--blue); color:#fff; text-decoration:none; padding:11px 22px; border-radius:8px; font-weight:700; font-size:14px; border:none; cursor:pointer; }
+</style>
+</head>
+<body>
+<div class="page">
+  <div class="eyebrow">Open Group · методология аудита Zelta</div>
+  <h1>Пример отчёта о глубоком аудите CRM</h1>
+  <div class="meta">Демонстрационный (обезличенный) пример · клиент: «Сеть фитнес-клубов, 4 филиала, Алматы» · CRM: amoCRM</div>
+  <span class="badge">ПРИМЕР — реальные имена и точные цифры клиентов не раскрываются</span>
+
+  <div class="btnbar noprint">
+    <button class="btn" onclick="window.print()">📄 Сохранить как PDF / распечатать</button>
+  </div>
+
+  <p class="lead">Это <strong>сокращённая клиентская версия</strong> отчёта — общая выжимка для первого знакомства. В полном аудите по методологии Zelta значительно больше: <strong>6 модулей анализа</strong> (воронки, боты-автоматизации, интеграции, клиентская база, процессы, гигиена данных), десятки под-проверок и сценарный разбор — это кратно увеличивает глубину и точность выводов (полный отчёт по реальному клиенту — порядка 60+ страниц).</p>
+
+  <div class="scorebar">
+    <div class="scorebox">
+      <div class="note">Общая оценка зрелости CRM</div>
+      <div class="scoreval">73<span>/100</span></div>
+    </div>
+    <div class="modules">
+      <span class="mod">Воронки и процессы · 78</span>
+      <span class="mod">Боты / автоматизации · 64</span>
+      <span class="mod">Интеграции и каналы · 81</span>
+      <span class="mod">Клиентская база · 59</span>
+      <span class="mod">Процессы продаж · 70</span>
+      <span class="mod mod-low">Гигиена данных · 48</span>
+    </div>
+  </div>
+
+  <p class="note">Мы не делаем категоричных выводов «у вас всё плохо»: каждый вывод проходит цепочку и снабжён уровнем уверенности.</p>
+  <div class="chain">
+    <span class="chip">Сигнал</span>→<span class="chip">Контекст</span>→<span class="chip">Возможная причина</span>→<span class="chip">Последствие</span>→<span class="chip">Гипотеза</span>
+  </div>
+  <p class="note">Уровни уверенности: <span class="conf high">Высокий</span> подтверждено данными · <span class="conf med">Средний</span> вероятно · <span class="conf hyp">гипотеза</span> требует проверки на встрече.</p>
+
+  <h2>1. Резюме для руководителя</h2>
+  <div class="kpi">
+    <div><span class="kpi-label">Полнота ключевых полей</span><span class="kpi-val red">38%</span><span class="kpi-sub">цель &gt; 95%</span></div>
+    <div><span class="kpi-label">Потенциальные дубли</span><span class="kpi-val red">~12%</span><span class="kpi-sub">контактов</span></div>
+    <div><span class="kpi-label">Сделки без задачи</span><span class="kpi-val red">26%</span><span class="kpi-sub">«зависают» без действий</span></div>
+    <div><span class="kpi-label">Воронки</span><span class="kpi-val">1 / 6</span><span class="kpi-sub">основная + 5 вторичных</span></div>
+  </div>
+  <p>Система внедрена и используется, но <strong>аналитике в текущем виде доверять нельзя</strong>: при полноте ключевых полей 38% (цель &gt;95%) метрики конверсии и выручки могут быть искажены. Ниже — приоритизированные находки и гипотезы к обсуждению.</p>
+
+  <h2>2. Воронки и процессы</h2>
+  <p class="note">Перед интерпретацией статистик мы разделяем основную и вторичные воронки (классификатор по источникам, объёму, свежести и имени).</p>
+  <table>
+    <tr><th>Воронка</th><th>Тип</th><th>Активных сделок</th><th>Комментарий</th></tr>
+    <tr><td>Продажа абонементов</td><td><b>Основная</b></td><td>312</td><td>Высокая доля автоисточников, свежие сделки</td></tr>
+    <tr><td>Продление / возвраты</td><td>Вторичная активная</td><td>148</td><td>Ведётся частично вручную</td></tr>
+    <tr><td>Корпоративные продажи</td><td>Вторичная (спящая)</td><td>9</td><td>Почти не используется</td></tr>
+    <tr><td>+ 3 архивные</td><td>Спящие</td><td>—</td><td>Кандидаты на архивацию</td></tr>
+  </table>
+
+  <div class="finding">
+    <h3>Находка 2.1 — этапы воронки «перепрыгиваются» <span class="conf high">Высокий</span></h3>
+    <p><b>Сигнал:</b> 41% выигранных сделок не проходили этап «Презентация/пробное».
+    <b>Контекст:</b> основная воронка, продажа абонементов.
+    <b>Возможная причина:</b> менеджеры закрывают сделку «задним числом», минуя этапы.
+    <b>Последствие:</b> конверсия по этапам недостоверна, нельзя найти узкое место.
+    <b>Гипотеза:</b> навести дисциплину этапов + автоматические правила перевода → достоверная воронка за 2–4 недели.</p>
+  </div>
+
+  <h2>3. Качество данных</h2>
+  <table>
+    <tr><th>Показатель</th><th>Факт</th><th>Цель</th><th>Уровень</th></tr>
+    <tr><td>Полнота: телефон контакта</td><td>71%</td><td>&gt;98%</td><td><span class="conf high">Высокий</span></td></tr>
+    <tr><td>Полнота: источник сделки</td><td>34%</td><td>&gt;90%</td><td><span class="conf high">Высокий</span></td></tr>
+    <tr><td>Дубли контактов по телефону</td><td>~12%</td><td>&lt;2%</td><td><span class="conf med">Средний</span></td></tr>
+    <tr><td>«Мёртвые» кастом-поля (&lt;10% запол.)</td><td>63 из 180</td><td>—</td><td><span class="conf high">Высокий</span></td></tr>
+  </table>
+  <div class="finding">
+    <h3>Находка 3.1 — утечка лидов на «грязных» контактах <span class="conf med">Средний</span></h3>
+    <p><b>Сигнал:</b> 29% сделок без корректного телефона, 12% дублей.
+    <b>Контекст:</b> входящие из нескольких каналов без единой точки сбора.
+    <b>Возможная причина:</b> нет валидации при создании, разные менеджеры заводят одного клиента.
+    <b>Последствие:</b> повторные касания теряются, часть лидов не дозванивается.
+    <b>Гипотеза:</b> дедупликация + обязательные поля + единая форма захвата вернут часть утекающих лидов.</p>
+  </div>
+
+  <h2>4. Автоматизация и нагрузка на менеджеров</h2>
+  <p><b>Сигнал:</b> 26% активных сделок без открытой задачи, ~5–7 ч/нед на менеджера уходит на ручной ввод и поиск.
+  <b>Гипотеза <span class="conf hyp">гипотеза</span>:</b> боты-напоминания, автозадачи и автозаполнение снимут значительную часть ручного труда — точную оценку дадим после доступа к статистике действий.</p>
+
+  <h2>5. Боты и сценарии автоматизации (Salesbot)</h2>
+  <p class="note">В полном аудите каждый бот-сценарий разбирается по шагам (например, цепочка касаний D1–D7). Здесь — сводка.</p>
+  <table>
+    <tr><th>Сценарий</th><th>Статус</th><th>Замечание</th></tr>
+    <tr><td>Приветствие нового лида</td><td>Работает</td><td>Срабатывает, но без сегментации по источнику</td></tr>
+    <tr><td>Дожим без ответа (D1–D7)</td><td>Частично</td><td>Обрывается на D3, нет эскалации менеджеру</td></tr>
+    <tr><td>Напоминание о продлении</td><td>Нет</td><td>Возвраты ведутся вручную — теряется часть базы</td></tr>
+    <tr><td>Реактивация «спящих»</td><td>Нет</td><td>Большой неиспользуемый ресурс базы</td></tr>
+  </table>
+
+  <h2>6. Интеграции и каналы</h2>
+  <table>
+    <tr><th>Канал / сервис</th><th>Подключён</th><th>Замечание</th></tr>
+    <tr><td>Телефония (Sipuni)</td><td>Да</td><td>Звонки пишутся, но не всегда привязаны к сделке</td></tr>
+    <tr><td>WhatsApp (Wazzup)</td><td>Да</td><td>Часть переписки вне CRM — теряется история</td></tr>
+    <tr><td>Сайт / формы</td><td>Частично</td><td>Не все формы передают источник и UTM</td></tr>
+    <tr><td>Касса / оплата</td><td>Нет</td><td>Оплаты заносятся вручную</td></tr>
+  </table>
+
+  <h2>7. Безопасность и права доступа</h2>
+  <p><b>Сигнал:</b> у части менеджеров — права на экспорт всей базы и удаление сделок.
+  <b>Последствие:</b> риск утечки базы при увольнении, потеря истории.
+  <b>Гипотеза <span class="conf med">Средний</span>:</b> ролевая модель доступа (минимально необходимые права) + журнал действий снизят риск без потери удобства.</p>
+
+  <h2>8. Приоритизированные рекомендации</h2>
+  <table>
+    <tr><th>Приоритет</th><th>Что сделать</th><th>Ожидаемый эффект</th></tr>
+    <tr><td>P0</td><td>Дедупликация + обязательные поля + валидация телефона</td><td>Меньше утечки лидов, достоверные контакты</td></tr>
+    <tr><td>P0</td><td>Дисциплина этапов основной воронки + правила перевода</td><td>Достоверная конверсия, видно узкое место</td></tr>
+    <tr><td>P1</td><td>Архивация спящих воронок, чистка мёртвых полей</td><td>Прозрачность, меньше шума</td></tr>
+    <tr><td>P1</td><td>Автозадачи и боты-напоминания</td><td>Меньше ручного труда, нет «зависших» сделок</td></tr>
+    <tr><td>P2</td><td>Дашборд управленческой аналитики</td><td>Решения на данных, а не на ощущениях</td></tr>
+  </table>
+  <p class="note">Это гипотезы для обсуждения, а не готовый план задач. План формируется вместе с вами на разборе.</p>
+
+  <h2>9. Roadmap развития CRM</h2>
+  <table>
+    <tr><th>Этап</th><th>Срок</th><th>Фокус</th></tr>
+    <tr><td>1. Запуск базы</td><td>от 1 месяца</td><td>Аудит, костяк, перенос и первичная чистка, обучение старту</td></tr>
+    <tr><td>2. Углубление под процессы</td><td>2–3 месяц</td><td>Боты и автоматизации, интеграции, регламенты, дочистка</td></tr>
+    <tr><td>3. Зрелость и контроль</td><td>4–6 месяц</td><td>Полная проработка БП, аналитика, контроль чистоты через Zelta</td></tr>
+    <tr><td>Далее</td><td>постоянно</td><td>Сопровождение: система удерживает стандарт, данные не деградируют</td></tr>
+  </table>
+
+  <div class="foot">
+    <p><strong>Open Group</strong> — внедрение и сопровождение amoCRM. 15 инженеров · Официальный партнёр amoCRM · 1000+ компаний в базе с 2016 года.<br>
+    Хотите такой разбор по вашей системе? Оставьте заявку на персональный аудит на странице калькулятора.<br>
+    <span class="note">Документ обезличен по политике конфиденциальности. Методология Zelta развивается с каждой клиентской сессией.</span></p>
+  </div>
+</div>
+</body>
+</html>

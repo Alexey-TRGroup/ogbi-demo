@@ -1,0 +1,10 @@
+# gitleaks-конфиг репозитория: дефолтные правила + allowlist для заведомо ПУБЛИЧНЫХ значений.
+[extend]
+useDefault = true
+
+[allowlist]
+description = "Power BI 'Publish to web' embed-токен — ПУБЛИЧНЫЙ по дизайну (любой по ссылке смотрит отчёт), данные в отчёте фейковые (обезличенный KZ-медтех демо). Это маркетинговая ссылка на живое демо, не секрет."
+regexTarget = "line"
+regexes = [
+  '''app\.powerbi\.com/view\?r=''',
+]
